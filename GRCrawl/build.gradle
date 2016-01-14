@@ -1,0 +1,33 @@
+apply plugin: 'war'
+//apply plugin: 'eclipse'
+apply plugin: 'groovy'
+//apply plugin: 'application'
+
+
+repositories {
+	jcenter()
+}
+
+
+dependencies {
+	compile 'org.codehaus.groovy:groovy-all:2.4.5'
+	compile 'org.apache.lucene:lucene-core:5.3.1'
+	compile 'org.apache.lucene:lucene-analyzers-common:5.3.1'
+	compile 'org.apache.lucene:lucene-queryparser:5.3.1'
+	compile 'org.twitter4j:twitter4j-core:4.0.4'
+	compile 'edu.uci.ics:crawler4j:4.1'
+	testCompile 'junit:junit:4.12'
+}
+
+task(runSimple, dependsOn: 'classes', type: JavaExec) {
+	main = 'crawler.BasicCrawlController'
+	classpath = sourceSets.main.runtimeClasspath
+	//args 'mrhaki'
+	//systemProperty 'simple.message', 'Hello '
+}
+
+task hello {
+	doLast {
+	  println 'Hello Gradle'
+	}
+  }
