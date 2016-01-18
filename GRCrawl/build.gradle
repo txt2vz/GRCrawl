@@ -19,12 +19,11 @@ dependencies {
 	testCompile 'junit:junit:4.12'
 }
 
-task(runSimple, dependsOn: 'classes', type: JavaExec) {
-	main = 'crawler.BasicCrawlController'
-	classpath = sourceSets.main.runtimeClasspath
-	//args 'mrhaki'
-	//systemProperty 'simple.message', 'Hello '
-}
+//task(runSimple, dependsOn: 'classes', type: JavaExec) {
+//	main = 'crawler.BasicCrawlController'
+	//classpath = sourceSets.main.runtimeClasspath
+
+//}
 
 task hello {
 	doLast {
