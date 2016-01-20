@@ -100,5 +100,6 @@ def addDoc(IndexWriter w, String twtext, String twuname, String q, int cat) thro
 	doc.add(new StringField(IndexInfoStatic.FIELD_TWITTER_USERNAME, twuname, Field.Store.YES));
 	doc.add(new StringField(IndexInfoStatic.FIELD_CATEGORY, cat.toString(), Field.Store.YES));
 	doc.add(new StringField(IndexInfoStatic.FIELD_QUERY, q, Field.Store.YES));
+	doc.add(new StringField(IndexInfoStatic.FIELD_TEST_TRAIN, "train", Field.Store.YES));
 	w.addDocument(doc);
 }
