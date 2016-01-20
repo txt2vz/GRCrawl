@@ -15,7 +15,8 @@ def indexInfo = IndexInfoStatic.instance
 indexInfo.setIndexWriter(true)//(true)
 def iw= indexInfo.iw;
 
-def queryStrings = ["dog", "cat", "mouse"]
+def queryStrings = ["trump", "clinton", "sanders" ] 
+//["dog", "cat", "mouse"]
 
 queryStrings.eachWithIndex{queryString, catNumber ->
 
@@ -23,7 +24,7 @@ queryStrings.eachWithIndex{queryString, catNumber ->
 	//GeoLocation sheffield = new GeoLocation(53.377127, -1.467705);
 	//query.setGeoCode(sheffield, 800, Query.KILOMETERS)
 
-	int numberOfTweets = 400;
+	int numberOfTweets = 1000;
 	long lastID = Long.MAX_VALUE;
 	List<Status> tweets = []
 
@@ -48,22 +49,23 @@ queryStrings.eachWithIndex{queryString, catNumber ->
 
 	println "collected ********** " + tweets.size() + " for catNumber $catNumber query $queryString"
 
-	tweets.each {
+	tweets.eachWithIndex {t, index ->
 
-		def uname = it.getUser().getScreenName()
-		def txt =  it.getText()
-		def plc = it.getPlace()?.getFullName()
+		def uname = t.getUser().getScreenName()
+		def txt =  t.getText()
+		def plc = t.getPlace()?.getFullName()
 
 		//	println "username: $uname text: $txt"
 		//	println "place is $plc"
+		def train = index % 2==0 ? "train" : "test"
 
-		addDoc(iw, txt, uname, queryString, catNumber)
+		addDoc(iw, txt, uname, queryString, catNumber, train)
 
-		def geo = it.getGeoLocation();
+		def geo = t.getGeoLocation();
 
 		if (geo!=null){
-			def lat = it.getGeoLocation().getLatitude()
-			def	lng = it.getGeoLocation().getLongitude()
+			def lat = t.getGeoLocation().getLatitude()
+			def	lng = t.getGeoLocation().getLongitude()
 
 			println "lat: $lat geo is $geo"
 			println ""
@@ -91,8 +93,9 @@ private Twitter getTwitterAuth(){
 	return tf.getInstance();
 }
 
-def addDoc(IndexWriter w, String twtext, String twuname, String q, int cat) throws IOException {
+def addDoc(IndexWriter w, String twtext, String twuname, String q, int cat, String trn) throws IOException {
 	//println "in add doc text is $twtext"
+	
 	Document doc = new Document();
 	doc.add(new TextField(IndexInfoStatic.FIELD_CONTENTS, twtext, Field.Store.YES));
 
@@ -100,6 +103,6 @@ def addDoc(IndexWriter w, String twtext, String twuname, String q, int cat) thro
 	doc.add(new StringField(IndexInfoStatic.FIELD_TWITTER_USERNAME, twuname, Field.Store.YES));
 	doc.add(new StringField(IndexInfoStatic.FIELD_CATEGORY, cat.toString(), Field.Store.YES));
 	doc.add(new StringField(IndexInfoStatic.FIELD_QUERY, q, Field.Store.YES));
-	doc.add(new StringField(IndexInfoStatic.FIELD_TEST_TRAIN, "train", Field.Store.YES));
+	doc.add(new StringField(IndexInfoStatic.FIELD_TEST_TRAIN, trn, Field.Store.YES));
 	w.addDocument(doc);
 }
