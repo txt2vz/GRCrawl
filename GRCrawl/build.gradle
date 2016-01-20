@@ -11,9 +11,9 @@ repositories {
 
 dependencies {
 	compile 'org.codehaus.groovy:groovy-all:2.4.5'
-	compile 'org.apache.lucene:lucene-core:5.3.1'
-	compile 'org.apache.lucene:lucene-analyzers-common:5.3.1'
-	compile 'org.apache.lucene:lucene-queryparser:5.3.1'
+	compile 'org.apache.lucene:lucene-core:5.4.0'
+	compile 'org.apache.lucene:lucene-analyzers-common:5.4.0'
+	compile 'org.apache.lucene:lucene-queryparser:5.4.0'
 	compile 'org.twitter4j:twitter4j-core:4.0.4'
 	compile 'edu.uci.ics:crawler4j:4.1'
 	testCompile 'junit:junit:4.12'

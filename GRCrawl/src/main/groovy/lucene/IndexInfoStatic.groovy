@@ -4,6 +4,7 @@ import java.nio.file.Path
 import java.nio.file.Paths
 
 import org.apache.lucene.analysis.Analyzer
+import org.apache.lucene.analysis.en.EnglishAnalyzer
 import org.apache.lucene.analysis.standard.StandardAnalyzer
 import org.apache.lucene.index.IndexReader
 import org.apache.lucene.index.IndexWriter
@@ -23,14 +24,17 @@ class IndexInfoStatic {
 	// Lucene field names
 	public static final String FIELD_CATEGORY = "category";
 	public static final String FIELD_CONTENTS = "contents";
+	public static final String FIELD_QUERY = "query";
 	public static final String FIELD_PATH = "path";
 	public static final String FIELD_TEST_TRAIN = "test_train";
 	public static final String FIELD_TWITTER_USERNAME = "twitter_username";
 
-	final indexPath =  "C:\\Users\\laurie\\Java\\indexes2\\crawl4"
+	private final indexPath =  "C:\\Users\\laurie\\Java\\indexes2\\crawl7" 
 	private Path path = Paths.get(indexPath)
 	private Directory directory = FSDirectory.open(path)
-	private Analyzer analyzer = new StandardAnalyzer();
+	//Analyzer analyzer = new StandardAnalyzer();
+	Analyzer analyzer    = new EnglishAnalyzer()
+	
 	IndexWriter iw;
 
 	IndexWriter setIndexWriter(boolean create){

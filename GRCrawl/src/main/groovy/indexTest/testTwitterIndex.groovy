@@ -1,6 +1,6 @@
 package indexTest
 
-import static org.junit.Assert.*;
+//import static org.junit.Assert.*;
 import lucene.*
 
 import org.junit.Test;
