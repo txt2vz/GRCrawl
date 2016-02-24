@@ -15,8 +15,7 @@ def indexInfo = IndexInfoStatic.instance
 indexInfo.setIndexWriter(true)//(true)
 def iw= indexInfo.iw;
 
-def queryStrings = ["trump", "clinton", "sanders" ] 
-//["dog", "cat", "mouse"]
+def queryStrings = ["trump", "clinton", "sanders" ]//["dog", "cat", "mouse"]
 
 queryStrings.eachWithIndex{queryString, catNumber ->
 
@@ -24,7 +23,7 @@ queryStrings.eachWithIndex{queryString, catNumber ->
 	//GeoLocation sheffield = new GeoLocation(53.377127, -1.467705);
 	//query.setGeoCode(sheffield, 800, Query.KILOMETERS)
 
-	int numberOfTweets = 1000;
+	int numberOfTweets = 5000;
 	long lastID = Long.MAX_VALUE;
 	List<Status> tweets = []
 
@@ -43,6 +42,10 @@ queryStrings.eachWithIndex{queryString, catNumber ->
 
 		catch (TwitterException te) {
 			println("Couldn't connect: " + te);
+			if (te.toString().contains("429")) {
+				println ("sleeping for 15mins");
+				Thread.sleep(900000);
+			}
 		};
 		query.setMaxId(lastID-1);
 	}
@@ -55,9 +58,7 @@ queryStrings.eachWithIndex{queryString, catNumber ->
 		def txt =  t.getText()
 		def plc = t.getPlace()?.getFullName()
 
-		//	println "username: $uname text: $txt"
-		//	println "place is $plc"
-		def train = index % 2==0 ? "train" : "test"
+		def train = index % 5==0 ? "test" : "train"
 
 		addDoc(iw, txt, uname, queryString, catNumber, train)
 
@@ -69,8 +70,7 @@ queryStrings.eachWithIndex{queryString, catNumber ->
 
 			println "lat: $lat geo is $geo"
 			println ""
-		}
-		//	println ""
+		}	
 	}
 }
 
@@ -83,10 +83,10 @@ private Twitter getTwitterAuth(){
 
 	ConfigurationBuilder cb = new ConfigurationBuilder();
 	cb.setDebugEnabled(true)
-			.setOAuthConsumerKey("u59ay8TtPUn5p9VTHxdFg")
-			.setOAuthConsumerSecret("LOkS2Vl9KTWXH5VMuwhb9RfIcXBXzkvyzzwD0HQtr14")
-			.setOAuthAccessToken("560297710-4UmsMLOILUgIkLx6V5mdH1lbvG8ew8xvQm5YgBhY")
-			.setOAuthAccessTokenSecret("mlwDtpbx9bUKTTk4wpBYVdUagGmBX6bzAYJbktoNM");
+			.setOAuthConsumerKey("**")
+			.setOAuthConsumerSecret("**")
+			.setOAuthAccessToken("**")
+			.setOAuthAccessTokenSecret("**");
 	TwitterFactory tf = new TwitterFactory(cb.build());
 	Twitter twitter = tf.getInstance();
 
@@ -95,7 +95,7 @@ private Twitter getTwitterAuth(){
 
 def addDoc(IndexWriter w, String twtext, String twuname, String q, int cat, String trn) throws IOException {
 	//println "in add doc text is $twtext"
-	
+
 	Document doc = new Document();
 	doc.add(new TextField(IndexInfoStatic.FIELD_CONTENTS, twtext, Field.Store.YES));
 

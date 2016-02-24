@@ -33,8 +33,7 @@ class IndexInfoStatic {
 	private Path path = Paths.get(indexPath)
 	private Directory directory = FSDirectory.open(path)
 	//Analyzer analyzer = new StandardAnalyzer();
-	Analyzer analyzer    = new EnglishAnalyzer()
-	
+	Analyzer analyzer    = new EnglishAnalyzer()	
 	IndexWriter iw;
 
 	IndexWriter setIndexWriter(boolean create){
