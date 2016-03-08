@@ -29,7 +29,7 @@ class IndexInfoStatic {
 	public static final String FIELD_TEST_TRAIN = "test_train";
 	public static final String FIELD_TWITTER_USERNAME = "twitter_username";
 
-	private final indexPath =  "C:\\Users\\laurie\\Java\\indexes2\\crawl7" 
+	private final indexPath =  "C:\\Users\\laurie\\Java\\indexes2\\twitSwiftGatesTrump" 
 	private Path path = Paths.get(indexPath)
 	private Directory directory = FSDirectory.open(path)
 	//Analyzer analyzer = new StandardAnalyzer();

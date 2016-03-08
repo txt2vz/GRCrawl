@@ -15,7 +15,7 @@ def indexInfo = IndexInfoStatic.instance
 indexInfo.setIndexWriter(true)//(true)
 def iw= indexInfo.iw;
 
-def queryStrings = ["trump", "clinton", "sanders" ]//["dog", "cat", "mouse"]
+def queryStrings = ["donal trump", "bill gates", "taylor swift" ]//["dog", "cat", "mouse"]
 
 queryStrings.eachWithIndex{queryString, catNumber ->
 
@@ -43,7 +43,7 @@ queryStrings.eachWithIndex{queryString, catNumber ->
 		catch (TwitterException te) {
 			println("Couldn't connect: " + te);
 			if (te.toString().contains("429")) {
-				println ("sleeping for 15mins");
+				println "sleeping for 15mins at ${new Date()}"
 				Thread.sleep(900000);
 			}
 		};
@@ -58,6 +58,8 @@ queryStrings.eachWithIndex{queryString, catNumber ->
 		def txt =  t.getText()
 		def plc = t.getPlace()?.getFullName()
 
+		//	println "username: $uname text: $txt"
+		//	println "place is $plc"
 		def train = index % 5==0 ? "test" : "train"
 
 		addDoc(iw, txt, uname, queryString, catNumber, train)
@@ -70,7 +72,8 @@ queryStrings.eachWithIndex{queryString, catNumber ->
 
 			println "lat: $lat geo is $geo"
 			println ""
-		}	
+		}
+		//	println ""
 	}
 }
 
@@ -83,10 +86,10 @@ private Twitter getTwitterAuth(){
 
 	ConfigurationBuilder cb = new ConfigurationBuilder();
 	cb.setDebugEnabled(true)
-			.setOAuthConsumerKey("**")
-			.setOAuthConsumerSecret("**")
-			.setOAuthAccessToken("**")
-			.setOAuthAccessTokenSecret("**");
+			.setOAuthConsumerKey("u59ay8TtPUn5p9VTHxdFg")
+			.setOAuthConsumerSecret("LOkS2Vl9KTWXH5VMuwhb9RfIcXBXzkvyzzwD0HQtr14")
+			.setOAuthAccessToken("560297710-4UmsMLOILUgIkLx6V5mdH1lbvG8ew8xvQm5YgBhY")
+			.setOAuthAccessTokenSecret("mlwDtpbx9bUKTTk4wpBYVdUagGmBX6bzAYJbktoNM");
 	TwitterFactory tf = new TwitterFactory(cb.build());
 	Twitter twitter = tf.getInstance();
 
